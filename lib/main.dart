@@ -72,7 +72,7 @@ class MyApp extends StatelessWidget {
                 tableData: [
                   ['Nova', '#efefef', 'bold'],
                   ['Apollo', '#00000000', 'normal weight'],
-                  ['Nova', '#ffffff', 'bold'],
+                  ['Nova', '#ffffff', '600'],
                   ['Nova', '#ffffff', 'bold'],
                 ],
               ),
