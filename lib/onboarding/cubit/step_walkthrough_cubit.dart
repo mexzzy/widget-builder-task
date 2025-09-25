@@ -1,0 +1,121 @@
+import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:widget_builder_demo/onboarding/models/step.dart';
+import 'package:widget_builder_demo/onboarding/state/step_walkthrough_state.dart';
+
+class OnboardingCubit extends Cubit<OnboardingState> {
+  OnboardingCubit() : super(OnboardingInitial());
+
+  void initialize() {
+    final steps = [
+      const Step(title: "Intro", isActive: true),
+      const Step(title: "Connect figma", isActive: false),
+      const Step(title: "Single widget", isActive: false),
+      const Step(title: "Templates", isActive: false),
+      const Step(title: "Export code", isActive: false),
+    ];
+
+    emit(OnboardingInProgress(
+      currentStepIndex: 0,
+      steps: steps,
+      isVisible: false,
+    ));
+  }
+
+  void showOnboarding() {
+    if (state is OnboardingInProgress) {
+      final currentState = state as OnboardingInProgress;
+      emit(currentState.copyWith(isVisible: true));
+    } else {
+      initialize();
+      final currentState = state as OnboardingInProgress;
+      emit(currentState.copyWith(isVisible: true));
+    }
+  }
+
+  void hideOnboarding() {
+    if (state is OnboardingInProgress) {
+      final currentState = state as OnboardingInProgress;
+      emit(currentState.copyWith(isVisible: false));
+    }
+  }
+
+  void nextStep() {
+    if (state is OnboardingInProgress) {
+      final currentState = state as OnboardingInProgress;
+      if (currentState.canGoNext) {
+        final newSteps = List<Step>.from(currentState.steps);
+
+        // Mark current step as completed and inactive
+        newSteps[currentState.currentStepIndex] =
+            newSteps[currentState.currentStepIndex].copyWith(
+          isCompleted: true,
+          isActive: false,
+        );
+
+        // Mark next step as active
+        newSteps[currentState.currentStepIndex + 1] =
+            newSteps[currentState.currentStepIndex + 1].copyWith(
+          isActive: true,
+        );
+
+        emit(currentState.copyWith(
+          currentStepIndex: currentState.currentStepIndex + 1,
+          steps: newSteps,
+        ));
+      }
+    }
+  }
+
+  void previousStep() {
+    if (state is OnboardingInProgress) {
+      final currentState = state as OnboardingInProgress;
+      if (currentState.canGoPrevious) {
+        final newSteps = List<Step>.from(currentState.steps);
+
+        // Mark current step as inactive
+        newSteps[currentState.currentStepIndex] =
+            newSteps[currentState.currentStepIndex].copyWith(
+          isActive: false,
+        );
+
+        // Mark previous step as active and not completed
+        newSteps[currentState.currentStepIndex - 1] =
+            newSteps[currentState.currentStepIndex - 1].copyWith(
+          isActive: true,
+          isCompleted: false,
+        );
+
+        emit(currentState.copyWith(
+          currentStepIndex: currentState.currentStepIndex - 1,
+          steps: newSteps,
+        ));
+      }
+    }
+  }
+
+  void selectStep(int index) {
+    if (state is OnboardingInProgress) {
+      final currentState = state as OnboardingInProgress;
+      if (index >= 0 && index < currentState.steps.length) {
+        final newSteps = List<Step>.from(currentState.steps);
+
+        // Reset all steps
+        for (int i = 0; i < newSteps.length; i++) {
+          newSteps[i] = newSteps[i].copyWith(
+            isActive: i == index,
+            isCompleted: i < index,
+          );
+        }
+
+        emit(currentState.copyWith(
+          currentStepIndex: index,
+          steps: newSteps,
+        ));
+      }
+    }
+  }
+
+  void completeOnboarding() {
+    emit(OnboardingCompleted());
+  }
+}

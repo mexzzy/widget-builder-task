@@ -1,10 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_hex_color/flutter_hex_color.dart';
-import 'package:widget_builder_demo/components/dropdown_portal.dart';
+import 'package:widget_builder_demo/color_pallet/components/dropdown_portal.dart';
 import 'package:widget_builder_demo/constant/colors.dart';
-import 'package:widget_builder_demo/cubits/color_theme_cubit.dart';
-import 'package:widget_builder_demo/state/color_theme_state.dart';
+import 'package:widget_builder_demo/color_pallet/cubits/color_theme_cubit.dart';
+import 'package:widget_builder_demo/color_pallet/state/color_theme_state.dart';
 import '../models/color_theme.dart';
 
 class RowColumnLayout extends StatefulWidget {

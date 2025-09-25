@@ -1,5 +1,5 @@
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:widget_builder_demo/state/color_theme_state.dart';
+import 'package:widget_builder_demo/color_pallet/state/color_theme_state.dart';
 import '../models/color_theme.dart';
 
 class ColorThemeCubit extends Cubit<ColorThemeState> {

@@ -2,8 +2,8 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:widget_builder_demo/constant/colors.dart';
 import 'package:widget_builder_demo/constant/size_config.dart';
-import 'package:widget_builder_demo/components/row_column_layout.dart';
-import 'package:widget_builder_demo/state/color_theme_state.dart';
+import 'package:widget_builder_demo/color_pallet/components/row_column_layout.dart';
+import 'package:widget_builder_demo/color_pallet/state/color_theme_state.dart';
 import '../cubits/color_theme_cubit.dart';
 
 class DialogContainer extends StatefulWidget {

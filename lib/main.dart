@@ -2,8 +2,10 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_portal/flutter_portal.dart';
-import 'package:widget_builder_demo/components/dialog_container.dart';
-import 'package:widget_builder_demo/cubits/color_theme_cubit.dart';
+import 'package:widget_builder_demo/color_pallet/components/dialog_container.dart';
+import 'package:widget_builder_demo/color_pallet/cubits/color_theme_cubit.dart';
+import 'package:widget_builder_demo/onboarding/components/onboarding.dart';
+import 'package:widget_builder_demo/onboarding/cubit/step_walkthrough_cubit.dart';
 
 void main() {
   runApp(const MyApp());
@@ -14,16 +16,23 @@ class MyApp extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Portal(
-      child: MaterialApp(
-        title: 'Flutter Demo',
-        home: BlocProvider(
-          create: (context) => ColorThemeCubit(),
-          child: DialogContainer(
-            title: 'Color Pallet',
-            onClosePressed: () {},
-          ),
-        ),
+    // return Portal(
+    //   child: MaterialApp(
+    //     title: 'Flutter Demo',
+    //     home: BlocProvider(
+    //       create: (context) => ColorThemeCubit(),
+    //       child: DialogContainer(
+    //         title: 'Color Pallet',
+    //         onClosePressed: () {},
+    //       ),
+    //     ),
+    //   ),
+    // );
+    return MaterialApp(
+      title: 'Flutter Demo',
+      home: BlocProvider(
+        create: (context) => OnboardingCubit(),
+        child: const OnBoardingScreen(),
       ),
     );
   }
