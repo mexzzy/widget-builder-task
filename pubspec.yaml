@@ -39,6 +39,8 @@ dependencies:
   flutter_portal: ^1.1.4
   flutter_bloc: ^9.1.1
   equatable: ^2.0.7
+  re_editor: ^0.8.0
+  re_highlight: ^0.0.3
 
 dev_dependencies:
   flutter_test:
