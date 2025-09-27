@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_hex_color/flutter_hex_color.dart';
+import 'package:widget_builder_demo/onboarding/cubit/step_walkthrough_cubit.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 
 class StepWalkThrough extends StatelessWidget {
   final Widget titleWidget;
@@ -33,7 +35,6 @@ class StepWalkThrough extends StatelessWidget {
       return const SizedBox.shrink();
     }
 
-    // Get current step based on index
     final currentStep =
         currentStepIndex < steps.length ? steps[currentStepIndex] : steps[0];
 
@@ -174,7 +175,28 @@ class StepWalkThrough extends StatelessWidget {
                                           ),
                                         ),
                                       )
-                                    : const SizedBox.shrink(),
+                                    : ElevatedButton(
+                                        onPressed: () {
+                                          context
+                                              .read<OnboardingCubit>()
+                                              .hideOnboarding();
+                                        },
+                                        style: ElevatedButton.styleFrom(
+                                          padding: const EdgeInsets.all(8),
+                                          shape: RoundedRectangleBorder(
+                                            borderRadius:
+                                                BorderRadius.circular(8),
+                                          ),
+                                          backgroundColor: HexColor("#262728"),
+                                        ),
+                                        child: const Text(
+                                          'Close',
+                                          style: TextStyle(
+                                            color: Colors.white,
+                                            fontSize: 12,
+                                          ),
+                                        ),
+                                      ),
                               ],
                             ),
                           ),

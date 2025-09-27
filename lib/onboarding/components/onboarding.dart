@@ -54,19 +54,18 @@ class _OnBoardingViewState extends State<OnBoardingView> {
   }
 
   void _showOverlay(BuildContext context, OnboardingInProgress state) {
-    // Get the cubit instance from the current context
     final onboardingCubit = context.read<OnboardingCubit>();
 
     overlayEntry = OverlayEntry(
       builder: (overlayContext) => BlocProvider.value(
-        // Provide the existing cubit instance to the overlay
         value: onboardingCubit,
         child: BlocBuilder<OnboardingCubit, OnboardingState>(
           builder: (context, state) {
             if (state is OnboardingInProgress) {
               return StepWalkThrough(
-                key: ValueKey(
-                    state.currentStepIndex), // Add key to force rebuild
+                key: ValueKey(state.currentStepIndex),
+                steps: state.steps,
+                currentStepIndex: state.currentStepIndex,
                 titleWidget: Container(
                   padding:
                       const EdgeInsets.symmetric(vertical: 6, horizontal: 10),
@@ -81,15 +80,17 @@ class _OnBoardingViewState extends State<OnBoardingView> {
                   child: Row(
                     mainAxisSize: MainAxisSize.min,
                     children: [
-                      Icon(
-                        Icons.info_outline,
-                        color: HexColor("#FFFFFF"),
-                        size: 16,
-                      ),
+                      state.steps[state.currentStepIndex].floatIcon ??
+                          Icon(
+                            Icons.info,
+                            size: 16,
+                            color: HexColor("#ffffff"),
+                          ),
                       const SizedBox(width: 8),
-                      const Text(
-                        'Overview',
-                        style: TextStyle(
+                      Text(
+                        state.steps[state.currentStepIndex].floatLabel ??
+                            'Overview',
+                        style: const TextStyle(
                           color: Colors.white,
                           fontSize: 12,
                         ),
@@ -97,32 +98,23 @@ class _OnBoardingViewState extends State<OnBoardingView> {
                     ],
                   ),
                 ),
-                steps: state.steps,
-                currentStepIndex: state.currentStepIndex,
                 contentBuilder: (step) => Center(
                   child: Column(
                     mainAxisAlignment: MainAxisAlignment.center,
                     children: [
-                      Text(
-                        "Content for: ${step.title}",
-                        style: TextStyle(
-                          color: HexColor("#FFFFFF"),
-                          fontSize: 24,
-                        ),
-                      ),
-                      const SizedBox(height: 16),
-                      Text(
-                        "Onboarding Content should be a video here",
-                        style: TextStyle(
-                          color: HexColor("#FFFFFF").withOpacity(0.7),
-                          fontSize: 16,
-                        ),
-                      ),
+                      state.steps[state.currentStepIndex].content ??
+                          Text(
+                            "title",
+                            style: TextStyle(
+                              color: HexColor("#FFFFFF"),
+                              fontSize: 24,
+                            ),
+                          ),
                     ],
                   ),
                 ),
                 titleBuilder: (step) => Text(
-                  "Transfer figma components to canvas - ${step.title}",
+                  step.description ?? "",
                   style: TextStyle(
                     color: HexColor("#FFFFFF"),
                     fontSize: 12,
