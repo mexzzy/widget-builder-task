@@ -99,19 +99,14 @@ class _OnBoardingViewState extends State<OnBoardingView> {
                   ),
                 ),
                 contentBuilder: (step) => Center(
-                  child: Column(
-                    mainAxisAlignment: MainAxisAlignment.center,
-                    children: [
-                      state.steps[state.currentStepIndex].content ??
-                          Text(
-                            "title",
-                            style: TextStyle(
-                              color: HexColor("#FFFFFF"),
-                              fontSize: 24,
-                            ),
-                          ),
-                    ],
-                  ),
+                  child: state.steps[state.currentStepIndex].content ??
+                      Text(
+                        "title",
+                        style: TextStyle(
+                          color: HexColor("#FFFFFF"),
+                          fontSize: 24,
+                        ),
+                      ),
                 ),
                 titleBuilder: (step) => Text(
                   step.description ?? "",

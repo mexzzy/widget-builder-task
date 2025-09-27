@@ -19,9 +19,9 @@ class OnboardingCubit extends Cubit<OnboardingState> {
           size: 16,
           color: HexColor("#ffffff"),
         ),
-        floatLabel: "Reason",
+        floatLabel: "Welcome",
         content: Text(
-          "text things",
+          "This is a Widget 1",
           style: TextStyle(
             color: HexColor("#FFFFFF"),
             fontSize: 24,
@@ -38,7 +38,7 @@ class OnboardingCubit extends Cubit<OnboardingState> {
           color: HexColor("#ffffff"),
         ),
         content: Text(
-          "text",
+          "This is a Widget 2",
           style: TextStyle(
             color: HexColor("#FFFFFF"),
             fontSize: 24,
@@ -51,7 +51,7 @@ class OnboardingCubit extends Cubit<OnboardingState> {
         description: "Transfer figma components to canvas",
         floatLabel: "Overview",
         content: Text(
-          "text",
+          "This is a Widget 3",
           style: TextStyle(
             color: HexColor("#FFFFFF"),
             fontSize: 24,
@@ -64,7 +64,7 @@ class OnboardingCubit extends Cubit<OnboardingState> {
         description: "Transfer figma components to canvas",
         floatLabel: "Widget",
         content: Text(
-          "text",
+          "This is a Widget 4",
           style: TextStyle(
             color: HexColor("#FFFFFF"),
             fontSize: 24,
@@ -77,7 +77,7 @@ class OnboardingCubit extends Cubit<OnboardingState> {
         description: "Transfer figma components to canvas",
         floatLabel: "Buildings",
         content: Text(
-          "text",
+          "This is a Widget 5",
           style: TextStyle(
             color: HexColor("#FFFFFF"),
             fontSize: 24,
