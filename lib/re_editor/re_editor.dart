@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:re_editor/re_editor.dart';
+import 'package:re_highlight/languages/dart.dart';
+import 'package:re_highlight/styles/github-dark.dart';
 
 class DartCodeEditor extends StatefulWidget {
   const DartCodeEditor({super.key});
@@ -59,7 +61,6 @@ class Step {
     super.initState();
     _controller = CodeLineEditingController.fromText(dartCode);
 
-    // Listen to text changes
     _controller.addListener(() {
       debugPrint('Code changed: ${_controller.text.length} characters');
     });
@@ -72,7 +73,6 @@ class Step {
   }
 
   void _formatCode() {
-    // Basic Dart code formatting
     String currentText = _controller.text;
     String formattedText = _formatDartCode(currentText);
     _controller.text = formattedText;
@@ -90,16 +90,13 @@ class Step {
         continue;
       }
 
-      // Decrease indent for closing braces
       if (trimmed.startsWith('}')) {
         indentLevel = (indentLevel - 1).clamp(0, double.infinity).toInt();
       }
 
-      // Add indentation
       String indent = '  ' * indentLevel;
       formattedLines.add('$indent$trimmed');
 
-      // Increase indent for opening braces
       if (trimmed.endsWith('{') || trimmed.endsWith('({')) {
         indentLevel++;
       }
@@ -109,7 +106,6 @@ class Step {
   }
 
   void _handleKeyEvent(KeyEvent event) {
-    // Handle keyboard shortcuts
     if (event is KeyDownEvent) {
       final isControlPressed = HardwareKeyboard.instance
               .isLogicalKeyPressed(LogicalKeyboardKey.control) ||
@@ -150,29 +146,34 @@ class Step {
       child: Scaffold(
         backgroundColor: const Color(0xFF0D1117),
         appBar: AppBar(
-          title: const Text('Dart Code Editor - step.dart'),
+          title: const Text(
+            'Dart Code Editor - step.dart',
+            style: TextStyle(fontSize: 14, fontWeight: FontWeight.w500),
+          ),
           backgroundColor: const Color(0xFF21262D),
           foregroundColor: Colors.white,
           elevation: 0,
           actions: [
             IconButton(
               onPressed: _formatCode,
-              icon: const Icon(Icons.auto_fix_high),
+              icon: const Icon(Icons.auto_fix_high, size: 20),
               tooltip: 'Format Code (Ctrl+Shift+F)',
+              splashRadius: 20,
             ),
             IconButton(
               onPressed: () {
-                // Copy to clipboard
                 Clipboard.setData(ClipboardData(text: _controller.text));
                 ScaffoldMessenger.of(context).showSnackBar(
                   const SnackBar(
                     content: Text('Code copied to clipboard!'),
                     backgroundColor: Colors.green,
+                    duration: Duration(seconds: 2),
                   ),
                 );
               },
-              icon: const Icon(Icons.copy),
+              icon: const Icon(Icons.copy, size: 20),
               tooltip: 'Copy Code',
+              splashRadius: 20,
             ),
             IconButton(
               onPressed: () {
@@ -181,25 +182,29 @@ class Step {
                   const SnackBar(
                     content: Text('Code saved successfully!'),
                     backgroundColor: Colors.green,
+                    duration: Duration(seconds: 2),
                   ),
                 );
               },
-              icon: const Icon(Icons.save),
+              icon: const Icon(Icons.save, size: 20),
               tooltip: 'Save File (Ctrl+S)',
+              splashRadius: 20,
             ),
+            const SizedBox(width: 8),
           ],
         ),
         body: Column(
           children: [
-            // File tabs simulation
             Container(
               height: 40,
               color: const Color(0xFF1C2128),
               child: Row(
                 children: [
                   Container(
-                    padding:
-                        const EdgeInsets.symmetric(horizontal: 16, vertical: 8),
+                    padding: const EdgeInsets.symmetric(
+                      horizontal: 16,
+                      vertical: 8,
+                    ),
                     decoration: const BoxDecoration(
                       color: Color(0xFF0D1117),
                       border: Border(
@@ -220,6 +225,7 @@ class Step {
                           style: TextStyle(
                             color: Colors.white,
                             fontSize: 13,
+                            fontWeight: FontWeight.w500,
                           ),
                         ),
                       ],
@@ -228,7 +234,6 @@ class Step {
                 ],
               ),
             ),
-            // Editor area
             Expanded(
               child: Container(
                 margin: const EdgeInsets.all(8.0),
@@ -243,23 +248,47 @@ class Step {
                 child: CodeEditor(
                   controller: _controller,
                   style: CodeEditorStyle(
-                    // Basic styling that should work
                     fontSize: 14,
+                    fontFamily: 'monospace',
                     backgroundColor: const Color(0xFF0D1117),
                     selectionColor:
-                        const Color(0xFF264F78).withValues(alpha: 0.4),
+                        const Color(0xFF264F78).withValues(alpha: 0.5),
                     cursorColor: const Color(0xFFE6EDF3),
+                    codeTheme: CodeHighlightTheme(
+                      languages: {
+                        'dart': CodeHighlightThemeMode(mode: langDart),
+                      },
+                      theme: githubDarkTheme,
+                    ),
                   ),
+                  wordWrap: false,
+                  indicatorBuilder: (
+                    context,
+                    editingController,
+                    chunkController,
+                    notifier,
+                  ) {
+                    return Row(
+                      children: [
+                        DefaultCodeLineNumber(
+                          controller: editingController,
+                          notifier: notifier,
+                        ),
+                        Container(
+                          width: 1,
+                          color: const Color(0xFF30363D),
+                        ),
+                      ],
+                    );
+                  },
                   onChanged: (text) {
-                    // Handle text changes
+                    // Handle text changes if needed
                   },
                 ),
               ),
             ),
           ],
         ),
-
-        // Status bar
         bottomNavigationBar: Container(
           height: 30,
           color: const Color(0xFF21262D),
@@ -295,6 +324,7 @@ class Step {
                   fontSize: 12,
                 ),
               ),
+              const SizedBox(width: 8),
             ],
           ),
         ),
